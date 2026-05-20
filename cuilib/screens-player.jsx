@@ -3,7 +3,7 @@ const { useState, useEffect, useRef } = React;
 
 const YOUTUBE_IDS = { c1: 'YG0mbr7t1aQ' };
 
-function ScreenPlayer({ course, lesson, onBack, onNext, onPrev, onPractice, onSelectLesson }) {
+function ScreenPlayer({ course, lesson, onBack, onNext, onPrev, onPractice, onSelectLesson, user }) {
   const youtubeId = YOUTUBE_IDS[lesson.id] || null;
   const [speed] = useState('1.0X');
   const playerRef = useRef(null);
@@ -22,7 +22,8 @@ function ScreenPlayer({ course, lesson, onBack, onNext, onPrev, onPractice, onSe
 
   const submitComment = () => {
     if (!newComment.trim()) return;
-    setComments([{name: 'Luis Angel', avatar: 'L', body: newComment.trim(), when: 'ahora'}, ...comments]);
+    const userName = user?.displayName || user?.email?.split('@')[0] || 'Estudiante';
+    setComments([{name: userName, avatar: userName[0].toUpperCase(), body: newComment.trim(), when: 'ahora'}, ...comments]);
     setNewComment('');
   };
 
@@ -129,7 +130,7 @@ function ScreenPlayer({ course, lesson, onBack, onNext, onPrev, onPractice, onSe
               backgroundImage: 'url(assets/perfil.jpg)',
               backgroundSize: 'cover', backgroundPosition: 'center',
               flexShrink: 0,
-            }} aria-label="Luis Angel"/>
+            }} aria-label={user?.displayName || user?.email?.split('@')[0] || 'Estudiante'}/>
             <div style={{flex: 1}}>
               <input
                 className="chat-input"

@@ -1,4 +1,4 @@
-// screens.jsx — All page screens
+﻿// screens.jsx — All page screens
 const { useState: cUseState, useEffect: cUseEffect, useRef: cUseRef } = React;
 
 // ─── INICIO (Dashboard) ─────────────────────────────────────────
@@ -13,8 +13,7 @@ function ScreenInicio({ onNavigate, onOpenCourse, cardStyle, user }) {
         <div className="row gap-3" style={{ marginBottom: 6 }}>
           <span className="eyebrow">Bienvenido a CUILIB</span>
         </div>
-        <h1 className="h1">Hola, Luis Angel 
-</h1>
+        <h1 className="h1">Hola, {user?.displayName || user?.email?.split('@')[0] || 'Estudiante'}</h1>
         <p className="muted" style={{ margin: '6px 0 0', maxWidth: 520, fontSize: 14.5 }}>
           Empieza tu primer curso y construye tu racha de estudio.
         </p>

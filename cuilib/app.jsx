@@ -152,6 +152,7 @@ function App() {
               setCurrentLesson(TEMARIO_FLAT[Math.max(0, idx - 1)]);
             }}
             onPractice={goPractice}
+            user={authUser}
           />
         )}
         {route === 'quiz' && (
