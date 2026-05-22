@@ -479,6 +479,25 @@ function ScreenAdmin({ user }) {
   const totalLecciones = (window.TEMARIO_FLAT || []).length;
   const inicial = (user.displayName || user.email || '?')[0].toUpperCase();
 
+  const [geminiKey, setGeminiKey] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('cuilib_tweaks') || '{}');
+      return saved.geminiKey || '';
+    } catch { return ''; }
+  });
+  const [keySaved, setKeySaved] = useState(false);
+
+  const saveKey = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('cuilib_tweaks') || '{}');
+      saved.geminiKey = geminiKey.trim();
+      localStorage.setItem('cuilib_tweaks', JSON.stringify(saved));
+      window.GEMINI_API_KEY = saved.geminiKey;
+      setKeySaved(true);
+      setTimeout(() => setKeySaved(false), 2500);
+    } catch {}
+  };
+
   return (
     <div className="content fade-in" data-screen-label="Administrador">
       <section>
@@ -537,6 +556,53 @@ function ScreenAdmin({ user }) {
           >
             Abrir →
           </a>
+        </div>
+      </section>
+
+      <section>
+        <div className="eyebrow" style={{marginBottom:14}}>IA · GAZAPITO</div>
+        <div className="card card-pad" style={{display:'flex', flexDirection:'column', gap:16}}>
+          <div className="row gap-3">
+            <div style={{
+              width:44, height:44, borderRadius:12,
+              background:'var(--accent-soft)', color:'var(--accent)',
+              display:'grid', placeItems:'center', flexShrink:0,
+            }}>
+              <Icon name="bolt" size={20}/>
+            </div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:14, fontWeight:600}}>Gemini API Key</div>
+              <div className="muted" style={{fontSize:13}}>
+                {window.GEMINI_API_KEY ? '✓ IA activa — GAZAPITO usa Gemini' : 'Sin key — GAZAPITO usa respuestas estáticas'}
+              </div>
+            </div>
+            {window.GEMINI_API_KEY && (
+              <span style={{fontSize:11, fontWeight:700, padding:'4px 10px', borderRadius:99,
+                background:'color-mix(in oklab, var(--success) 15%, transparent)',
+                color:'var(--success)'}}>ACTIVO</span>
+            )}
+          </div>
+          <div style={{display:'flex', gap:10}}>
+            <input
+              type="password"
+              placeholder="Pega tu Gemini API key aquí"
+              value={geminiKey}
+              onChange={e => { setGeminiKey(e.target.value); setKeySaved(false); }}
+              onKeyDown={e => e.key === 'Enter' && saveKey()}
+              style={{
+                flex:1, height:40, padding:'0 14px',
+                background:'var(--surface-2)', border:'1px solid var(--border)',
+                borderRadius:'var(--r)', color:'var(--text)',
+                fontSize:13, outline:'none', fontFamily:'var(--ff-mono)',
+              }}
+            />
+            <button className="btn btn-primary btn-sm" onClick={saveKey} style={{height:40, padding:'0 18px'}}>
+              {keySaved ? '✓ Guardado' : 'Guardar'}
+            </button>
+          </div>
+          {geminiKey && !keySaved && (
+            <div className="muted" style={{fontSize:12}}>Presiona Guardar o Enter para activar.</div>
+          )}
         </div>
       </section>
     </div>
