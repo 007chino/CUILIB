@@ -447,10 +447,10 @@ function TweakSelect({ label, value, options, onChange }) {
   );
 }
 
-function TweakText({ label, value, placeholder, onChange }) {
+function TweakText({ label, value, placeholder, onChange, type = 'text' }) {
   return (
     <TweakRow label={label}>
-      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+      <input className="twk-field" type={type} value={value} placeholder={placeholder}
              onChange={(e) => onChange(e.target.value)} />
     </TweakRow>
   );

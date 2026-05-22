@@ -7,7 +7,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "cardStyle": "illustration",
   "radius": "default",
   "density": "regular",
-  "iconStroke": 1.7
+  "iconStroke": 1.7,
+  "geminiKey": ""
 }/*EDITMODE-END*/;
 
 function App() {
@@ -39,6 +40,11 @@ function App() {
     r.style.setProperty('--accent-soft-2', hexAlpha(t.accent, 0.22));
     r.style.setProperty('--accent-ring', hexAlpha(t.accent, 0.35));
   }, [t.theme, t.density, t.radius, t.accent]);
+
+  // Sincroniza Gemini API key con window para que GazapitoChat la use
+  useEffect(() => {
+    window.GEMINI_API_KEY = t.geminiKey || '';
+  }, [t.geminiKey]);
 
   const openCourse = (course) => {
     setCurrentCourse(course);
@@ -200,6 +206,16 @@ function App() {
         <TweakSlider label="Grosor de iconos" value={t.iconStroke}
                      min={1} max={2.4} step={0.1} unit="px"
                      onChange={v => setTweak('iconStroke', v)}/>
+
+        <TweakSection label="IA · GAZAPITO"/>
+        <TweakText label="Gemini API Key" type="password"
+                   value={t.geminiKey}
+                   placeholder="Pega tu key aquí"
+                   onChange={v => setTweak('geminiKey', v)}/>
+        {t.geminiKey
+          ? <div style={{fontSize:11, color:'#34d399', fontWeight:600}}>✓ IA activa</div>
+          : <div style={{fontSize:11, color:'rgba(41,38,27,.45)'}}>Sin key → respuestas estáticas</div>
+        }
       </TweaksPanel>
     </div>
   );
