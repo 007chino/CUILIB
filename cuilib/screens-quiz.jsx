@@ -51,14 +51,26 @@ function ExplicacionAnimada({ step }) {
   );
 }
 
+// ── Obtiene el API key (window o localStorage como fallback) ───
+function getGeminiKey() {
+  if (window.GEMINI_API_KEY) return window.GEMINI_API_KEY;
+  try {
+    const saved = JSON.parse(localStorage.getItem('cuilib_tweaks') || '{}');
+    const k = saved.geminiKey || '';
+    if (k) window.GEMINI_API_KEY = k; // sincronizar
+    return k;
+  } catch { return ''; }
+}
+
 // ── Genera preguntas con Gemini ────────────────────────────────
 async function callGeminiForQuestions(moduleName, courseName) {
-  const API_KEY = window.GEMINI_API_KEY;
-  if (!API_KEY || !moduleName) return null;
+  const API_KEY = getGeminiKey();
+  const topic = moduleName || courseName;
+  if (!API_KEY || !topic) return null;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
   const prompt = `Eres un generador de preguntas para el examen de admisión preuniversitario peruano.
-Genera exactamente 5 preguntas de opción múltiple sobre el tema: "${moduleName}"${courseName ? ` (materia: ${courseName})` : ''}.
+Genera exactamente 5 preguntas de opción múltiple sobre el tema: "${topic}"${courseName && courseName !== topic ? ` (materia: ${courseName})` : ''}.
 Responde SOLO con un JSON array válido (sin texto extra, sin bloques de código markdown).
 Cada objeto del array debe tener exactamente estos campos:
 - "prompt": enunciado claro y concreto de la pregunta (máximo 20 palabras)
@@ -93,11 +105,13 @@ Asegúrate de que las preguntas sean variadas, progresivas y apropiadas para pre
 
 function ScreenQuiz({ moduleId, moduleName, courseName, onExit, onBack, user }) {
   const [aiQuestions, setAiQuestions] = useState(null);
-  const [aiLoading, setAiLoading] = useState(!!window.GEMINI_API_KEY && !!moduleName);
+  const hasKey = !!(getGeminiKey());
+  const hasTopic = !!(moduleName || courseName);
+  const [aiLoading, setAiLoading] = useState(hasKey && hasTopic);
   const [gazMsg, setGazMsg] = useState(null); // auto-mensaje a GAZAPITO
 
   useEffect(() => {
-    if (!window.GEMINI_API_KEY || !moduleName) return;
+    if (!getGeminiKey() || !(moduleName || courseName)) return;
     setAiLoading(true);
     callGeminiForQuestions(moduleName, courseName).then(qs => {
       if (qs) setAiQuestions(qs);
@@ -182,7 +196,7 @@ function ScreenQuiz({ moduleId, moduleName, courseName, onExit, onBack, user }) 
             GAZAPITO está preparando tu práctica…
           </div>
           <div className="muted" style={{ fontSize: 13 }}>
-            Generando preguntas sobre <strong>{moduleName}</strong>
+            Generando preguntas sobre <strong>{moduleName || courseName}</strong>
           </div>
           <div style={{ marginTop: 20, display: 'flex', gap: 6, justifyContent: 'center' }}>
             {[0,1,2].map(i => (
@@ -605,7 +619,7 @@ function GazapitoChat({ onBack, userName, moduleName, courseName, externalMessag
   }, [externalMessage?.id]);
 
   const callGeminiAPI = async (historyMsgs) => {
-    const API_KEY = window.GEMINI_API_KEY;
+    const API_KEY = getGeminiKey();
     if (!API_KEY) return null;
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
