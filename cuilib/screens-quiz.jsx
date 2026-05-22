@@ -51,8 +51,60 @@ function ExplicacionAnimada({ step }) {
   );
 }
 
-function ScreenQuiz({ moduleId, onExit, onBack, user }) {
-  const steps = (() => {
+// ── Genera preguntas con Gemini ────────────────────────────────
+async function callGeminiForQuestions(moduleName, courseName) {
+  const API_KEY = window.GEMINI_API_KEY;
+  if (!API_KEY || !moduleName) return null;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+  const prompt = `Eres un generador de preguntas para el examen de admisión preuniversitario peruano.
+Genera exactamente 5 preguntas de opción múltiple sobre el tema: "${moduleName}"${courseName ? ` (materia: ${courseName})` : ''}.
+Responde SOLO con un JSON array válido (sin texto extra, sin bloques de código markdown).
+Cada objeto del array debe tener exactamente estos campos:
+- "prompt": enunciado claro y concreto de la pregunta (máximo 20 palabras)
+- "type": "choose-one"
+- "options": array de exactamente 4 opciones cortas y distintas
+- "answer": la opción correcta (texto exacto igual a uno de options)
+- "explanation": explicación de 2-3 oraciones clara de por qué esa es la respuesta correcta
+- "diagram": null, o uno de estos valores si un diagrama ayuda a entender: "venn","union","interseccion","diferencia","complemento","carroll","cardinalidad","conjuntos"
+Asegúrate de que las preguntas sean variadas, progresivas y apropiadas para preuniversitarios.`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.8, responseMimeType: 'application/json' },
+      }),
+    });
+    const data = await response.json();
+    if (data.candidates && data.candidates[0]) {
+      const raw = data.candidates[0].content.parts[0].text;
+      const clean = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+      const parsed = JSON.parse(clean);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (err) {
+    console.error('Gemini questions error:', err);
+  }
+  return null;
+}
+
+function ScreenQuiz({ moduleId, moduleName, courseName, onExit, onBack, user }) {
+  const [aiQuestions, setAiQuestions] = useState(null);
+  const [aiLoading, setAiLoading] = useState(!!window.GEMINI_API_KEY && !!moduleName);
+  const [gazMsg, setGazMsg] = useState(null); // auto-mensaje a GAZAPITO
+
+  useEffect(() => {
+    if (!window.GEMINI_API_KEY || !moduleName) return;
+    setAiLoading(true);
+    callGeminiForQuestions(moduleName, courseName).then(qs => {
+      if (qs) setAiQuestions(qs);
+    }).finally(() => setAiLoading(false));
+  }, []);
+
+  const steps = aiQuestions || (() => {
     const pool = (QUIZ_BY_MODULE && QUIZ_BY_MODULE[moduleId]) || [];
     return pool.length > 0 ? pool : QUIZ_STEPS;
   })();
@@ -61,15 +113,20 @@ function ScreenQuiz({ moduleId, onExit, onBack, user }) {
   const [hearts, setHearts] = useState(3);
   const [filled, setFilled] = useState({});
   const [picked, setPicked] = useState(null);
-  const [result, setResult] = useState(null); // 'correct' | 'wrong' | null
+  const [result, setResult] = useState(null);
   const [done, setDone] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
 
   const step = steps[stepIdx];
   const total = steps.length;
 
-  // Reset per-step state
   useEffect(() => { setFilled({}); setPicked(null); setResult(null); }, [stepIdx]);
+
+  const triggerGazapitoExplanation = (s) => {
+    const correctAnswer = s.answer || (s.diagrams ? s.diagrams.map(d => d.answer).join(' y ') : '');
+    const msg = `Respondí mal: "${s.prompt}". La respuesta correcta era "${correctAnswer}". ¿Me lo explicas paso a paso con ejemplos?`;
+    setGazMsg({ text: msg, id: Date.now() });
+  };
 
   const onComprobar = () => {
     if (step.type === 'fill-two') {
@@ -79,12 +136,12 @@ function ScreenQuiz({ moduleId, onExit, onBack, user }) {
       const c1 = b === step.diagrams[1].answer;
       const ok = c0 && c1;
       setResult(ok ? 'correct' : 'wrong');
-      if (!ok) setHearts(h => Math.max(0, h - 1));
+      if (!ok) { setHearts(h => Math.max(0, h - 1)); triggerGazapitoExplanation(step); }
     } else {
       if (!picked) return;
       const ok = picked === step.answer;
       setResult(ok ? 'correct' : 'wrong');
-      if (!ok) setHearts(h => Math.max(0, h - 1));
+      if (!ok) { setHearts(h => Math.max(0, h - 1)); triggerGazapitoExplanation(step); }
     }
   };
 
@@ -106,17 +163,54 @@ function ScreenQuiz({ moduleId, onExit, onBack, user }) {
 
   const pickFor = (opt) => {
     if (step.type !== 'fill-two') return;
-    // fill first empty slot
     if (!filled.slot0) setFilled({ ...filled, slot0: opt });
     else if (!filled.slot1) setFilled({ ...filled, slot1: opt });
   };
+
+  if (aiLoading) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'grid', placeItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 64, height: 64, borderRadius: '50%',
+            background: 'var(--accent-soft)', display: 'grid', placeItems: 'center',
+            margin: '0 auto 20px', border: '2px solid var(--accent-soft-2)',
+          }}>
+            <span style={{ fontSize: 28 }}>🐇</span>
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 8 }}>
+            GAZAPITO está preparando tu práctica…
+          </div>
+          <div className="muted" style={{ fontSize: 13 }}>
+            Generando preguntas sobre <strong>{moduleName}</strong>
+          </div>
+          <div style={{ marginTop: 20, display: 'flex', gap: 6, justifyContent: 'center' }}>
+            {[0,1,2].map(i => (
+              <div key={i} style={{
+                width: 8, height: 8, borderRadius: '50%',
+                background: 'var(--accent)',
+                animation: 'blink 1.4s infinite both',
+                animationDelay: `${i * 0.2}s`,
+              }}/>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="content fade-in" data-screen-label="05 Práctica"
       style={{ padding: '20px 28px 36px', maxWidth: 'none' }}>
       <div className="quiz-shell">
         {/* Left: GAZAPITO */}
-        <GazapitoChat onBack={onBack} userName={user?.displayName || user?.email?.split('@')[0]} />
+        <GazapitoChat
+          onBack={onBack}
+          userName={user?.displayName || user?.email?.split('@')[0]}
+          moduleName={moduleName}
+          courseName={courseName}
+          externalMessage={gazMsg}
+        />
 
         {/* Right: Quiz card */}
         {!done ? (
@@ -487,17 +581,28 @@ function DiagramaChat({ tipo }) {
 }
 
 // ── GazapitoChat ───────────────────────────────────────────────
-function GazapitoChat({ onBack, userName }) {
+function GazapitoChat({ onBack, userName, moduleName, courseName, externalMessage }) {
   const [messages, setMessages] = useState([
     { from: 'bot', text: BARTUCHA_GREETING(userName), diagram: null },
   ]);
   const [input, setInput] = useState('');
   const bodyRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
+  const sendRef = useRef(null);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
   }, [messages, isTyping]);
+
+  // Mantener sendRef siempre apuntando al send más reciente (cierre sobre messages actual)
+  sendRef.current = send;
+
+  // Auto-enviar cuando ScreenQuiz detecta respuesta incorrecta
+  useEffect(() => {
+    if (externalMessage?.text && sendRef.current) {
+      sendRef.current(externalMessage.text);
+    }
+  }, [externalMessage?.id]);
 
   const callGeminiAPI = async (historyMsgs) => {
     const API_KEY = window.GEMINI_API_KEY;
@@ -518,12 +623,14 @@ function GazapitoChat({ onBack, userName }) {
       }
     }
 
+    const topicCtx = moduleName ? ` El estudiante está practicando el tema "${moduleName}"${courseName ? ` de ${courseName}` : ''}.` : '';
     const systemInstruction = {
-      parts: [{ text: `Eres GAZAPITO, un conejito amigable y tutor experto en todas las materias preuniversitarias peruanas: matemática, física, química, biología, historia del Perú, geografía, razonamiento verbal y más.
+      parts: [{ text: `Eres GAZAPITO, un conejito amigable y tutor experto en todas las materias preuniversitarias peruanas.${topicCtx}
+Cuando el estudiante responda mal, explica la respuesta correcta de forma clara, con pasos si aplica, y usa un diagrama si ayuda a visualizarlo.
 Responde SIEMPRE con un JSON válido (sin bloques de código, sin texto extra) con exactamente estos campos:
-- "texto": tu respuesta en español, breve (máximo 3 oraciones), alentadora y clara, con emojis (🐇, 📚, ✨, 🎯)
+- "texto": tu respuesta en español, clara y motivadora (máximo 4 oraciones), con emojis (🐇, 📚, ✨, 🎯)
 - "diagrama": el tipo de diagrama más útil, o null si no aplica. Valores: "venn", "union", "interseccion", "diferencia", "complemento", "carroll", "cardinalidad", "conjuntos", null
-Ejemplo: {"texto": "¡Muy bien! La unión incluye todo lo de A y B 🐇✨", "diagrama": "union"}` }]
+Ejemplo: {"texto": "¡No te rindas! La unión A∪B incluye todos los elementos de A y B juntos 🐇✨", "diagrama": "union"}` }]
     };
 
     try {
@@ -557,6 +664,7 @@ Ejemplo: {"texto": "¡Muy bien! La unión incluye todo lo de A y B 🐇✨", "di
     const ms = [...messages, { from: 'you', text: txt, diagram: null }];
     setMessages(ms);
     setInput('');
+
     setIsTyping(true);
 
     const result = await callGeminiAPI(ms);
@@ -621,15 +729,24 @@ Ejemplo: {"texto": "¡Muy bien! La unión incluye todo lo de A y B 🐇✨", "di
           placeholder="Preguntar a GAZAPITO..."
           value={input}
           onChange={e => setInput(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && send(input)}
+          onKeyDown={e => { sendRef.current = send; e.key === 'Enter' && send(input); }}
         />
         <div className="chat-quick">
-          <span className="qc" onClick={() => send('Explícame la unión de conjuntos')}>A ∪ B</span>
-          <span className="qc" onClick={() => send('Explícame la intersección')}>A ∩ B</span>
-          <span className="qc" onClick={() => send('Explícame la diferencia A-B')}>A − B</span>
-          <span className="qc" onClick={() => send('Explícame el complemento')}>A′</span>
-          <span className="qc" onClick={() => send('Muéstrame el diagrama de Carroll')}>Carroll</span>
-          <span className="qc" onClick={() => send('Dame una pista')}>Pista 🐇</span>
+          {moduleName ? (
+            <>
+              <span className="qc" onClick={() => { sendRef.current = send; send(`Explícame el tema: ${moduleName}`); }}>📚 Explícame</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send(`Dame un ejemplo de ${moduleName}`); }}>✏️ Ejemplo</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send(`¿Cuáles son los errores más comunes en ${moduleName}?`); }}>⚠️ Errores</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send('Dame una pista para la pregunta actual'); }}>Pista 🐇</span>
+            </>
+          ) : (
+            <>
+              <span className="qc" onClick={() => { sendRef.current = send; send('Explícame la unión de conjuntos'); }}>A ∪ B</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send('Explícame la intersección'); }}>A ∩ B</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send('Explícame la diferencia A-B'); }}>A − B</span>
+              <span className="qc" onClick={() => { sendRef.current = send; send('Dame una pista'); }}>Pista 🐇</span>
+            </>
+          )}
         </div>
       </div>
     </div>

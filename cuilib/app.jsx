@@ -19,6 +19,7 @@ function App() {
   const [currentCourse, setCurrentCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(null);
   const [currentModuleId, setCurrentModuleId] = useState(null);
+  const [currentModuleName, setCurrentModuleName] = useState(null);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -58,11 +59,14 @@ function App() {
   };
 
   const goPractice = () => {
-    if (!currentCourse) setCurrentCourse(CUILIB_COURSES[0]);
+    const course = currentCourse || CUILIB_COURSES[0];
+    if (!currentCourse) setCurrentCourse(course);
+    const courseModules = (window.COURSE_MODULES || {})[course?.id] || ARITMETICA_MODULES;
     const module = currentLesson
-      ? ARITMETICA_MODULES.find(m => m.lessons.some(l => l.id === currentLesson.id))
+      ? courseModules.find(m => m.lessons.some(l => l.id === currentLesson.id))
       : null;
     setCurrentModuleId(module?.id || 'conjuntos');
+    setCurrentModuleName(module?.title || null);
     setRoute('quiz');
   };
 
@@ -164,6 +168,8 @@ function App() {
         {route === 'quiz' && (
           <ScreenQuiz
             moduleId={currentModuleId || 'conjuntos'}
+            moduleName={currentModuleName}
+            courseName={currentCourse?.title}
             onExit={() => setRoute('detalle')}
             onBack={() => setRoute('detalle')}
             user={authUser}
