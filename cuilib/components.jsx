@@ -195,9 +195,35 @@ function Stars({ value = 5, max = 5 }) {
   );
 }
 
+const BOTTOM_NAV = [
+  { id: 'inicio',   label: 'Inicio',    icon: 'home'      },
+  { id: 'cursos',   label: 'Cursos',    icon: 'video'     },
+  { id: 'practica', label: 'Práctica',  icon: 'paperclip' },
+  { id: 'rutas',    label: 'Rutas',     icon: 'route'     },
+  { id: 'progreso', label: 'Progreso',  icon: 'rewind'    },
+];
+
+function BottomNav({ route, onNavigate }) {
+  return (
+    <nav className="bottom-nav" data-screen-label="BottomNav">
+      {BOTTOM_NAV.map(item => (
+        <div
+          key={item.id}
+          className={`bottom-nav-item ${route === item.id ? 'active' : ''}`}
+          onClick={() => onNavigate(item.id)}
+        >
+          <span className="ico"><Icon name={item.icon} size={20}/></span>
+          <span>{item.label}</span>
+        </div>
+      ))}
+    </nav>
+  );
+}
+
 window.Sidebar = Sidebar;
 window.Topbar = Topbar;
 window.CourseCard = CourseCard;
 window.Stat = Stat;
 window.Stars = Stars;
 window.NAV = NAV;
+window.BottomNav = BottomNav;

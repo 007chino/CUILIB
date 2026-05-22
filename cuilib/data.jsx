@@ -108,6 +108,367 @@ const ARITMETICA_MODULES = [
   },
 ];
 
+const ALGEBRA_MODULES = [
+  { id: 'alg_expresiones', title: 'Expresiones algebraicas', count: 5, lessons: [
+    { id: 'ae1', title: 'Monomios y polinomios', done: false, duration: '10:00' },
+    { id: 'ae2', title: 'Valor numérico', done: false, duration: '09:00' },
+    { id: 'ae3', title: 'Grado de un polinomio', done: false, duration: '08:30' },
+    { id: 'ae4', title: 'Operaciones con polinomios', done: false, duration: '11:00' },
+    { id: 'ae5', title: 'División de polinomios (Ruffini)', done: false, duration: '12:00' },
+  ]},
+  { id: 'alg_productos', title: 'Productos notables y factorización', count: 5, lessons: [
+    { id: 'ap1', title: 'Cuadrado de un binomio', done: false, duration: '10:00' },
+    { id: 'ap2', title: 'Cubo de un binomio', done: false, duration: '09:00' },
+    { id: 'ap3', title: 'Factor común y agrupación', done: false, duration: '08:00' },
+    { id: 'ap4', title: 'Factorización de trinomios', done: false, duration: '11:00' },
+    { id: 'ap5', title: 'Diferencia de cuadrados y cubos', done: false, duration: '10:00' },
+  ]},
+  { id: 'alg_ecuaciones', title: 'Ecuaciones y sistemas', count: 5, lessons: [
+    { id: 'aeq1', title: 'Ecuaciones lineales', done: false, duration: '10:00' },
+    { id: 'aeq2', title: 'Ecuaciones cuadráticas', done: false, duration: '11:00' },
+    { id: 'aeq3', title: 'Sistemas 2×2: sustitución', done: false, duration: '12:00' },
+    { id: 'aeq4', title: 'Sistemas 2×2: eliminación', done: false, duration: '10:00' },
+    { id: 'aeq5', title: 'Sistemas 3×3', done: false, duration: '13:00' },
+  ]},
+  { id: 'alg_inecuaciones', title: 'Inecuaciones', count: 4, lessons: [
+    { id: 'ai1', title: 'Inecuaciones lineales', done: false, duration: '10:00' },
+    { id: 'ai2', title: 'Inecuaciones cuadráticas', done: false, duration: '11:00' },
+    { id: 'ai3', title: 'Sistemas de inecuaciones', done: false, duration: '09:00' },
+    { id: 'ai4', title: 'Valor absoluto en inecuaciones', done: false, duration: '10:00' },
+  ]},
+];
+
+const FISICA_MODULES = [
+  { id: 'fis_cinematica', title: 'Cinemática', count: 5, lessons: [
+    { id: 'fc1', title: 'Magnitudes escalares y vectoriales', done: false, duration: '10:00' },
+    { id: 'fc2', title: 'Movimiento rectilíneo uniforme (MRU)', done: false, duration: '11:00' },
+    { id: 'fc3', title: 'Movimiento uniformemente acelerado (MRUA)', done: false, duration: '12:00' },
+    { id: 'fc4', title: 'Caída libre y tiro vertical', done: false, duration: '11:00' },
+    { id: 'fc5', title: 'Tiro parabólico', done: false, duration: '13:00' },
+  ]},
+  { id: 'fis_dinamica', title: 'Dinámica y fuerzas', count: 4, lessons: [
+    { id: 'fd1', title: 'Leyes de Newton', done: false, duration: '12:00' },
+    { id: 'fd2', title: 'Fuerza de rozamiento', done: false, duration: '10:00' },
+    { id: 'fd3', title: 'Plano inclinado', done: false, duration: '11:00' },
+    { id: 'fd4', title: 'Fuerza centrípeta', done: false, duration: '10:00' },
+  ]},
+  { id: 'fis_energia', title: 'Trabajo, energía y potencia', count: 4, lessons: [
+    { id: 'fen1', title: 'Trabajo mecánico', done: false, duration: '09:00' },
+    { id: 'fen2', title: 'Energía cinética y potencial', done: false, duration: '11:00' },
+    { id: 'fen3', title: 'Conservación de la energía', done: false, duration: '10:00' },
+    { id: 'fen4', title: 'Potencia y rendimiento', done: false, duration: '09:00' },
+  ]},
+  { id: 'fis_ondas', title: 'Ondas y termodinámica', count: 4, lessons: [
+    { id: 'fo1', title: 'Movimiento ondulatorio', done: false, duration: '10:00' },
+    { id: 'fo2', title: 'Sonido y luz', done: false, duration: '11:00' },
+    { id: 'fo3', title: 'Temperatura y calor', done: false, duration: '10:00' },
+    { id: 'fo4', title: 'Leyes de los gases', done: false, duration: '11:00' },
+  ]},
+];
+
+const TRIGONOMETRIA_MODULES = [
+  { id: 'trig_razones', title: 'Razones trigonométricas', count: 5, lessons: [
+    { id: 'tr1', title: 'Ángulos y medición', done: false, duration: '09:00' },
+    { id: 'tr2', title: 'Razones en el triángulo rectángulo', done: false, duration: '10:00' },
+    { id: 'tr3', title: 'Valores exactos', done: false, duration: '09:00' },
+    { id: 'tr4', title: 'Razones de ángulos notables', done: false, duration: '10:00' },
+    { id: 'tr5', title: 'Razones de ángulos en el plano', done: false, duration: '11:00' },
+  ]},
+  { id: 'trig_identidades', title: 'Identidades trigonométricas', count: 4, lessons: [
+    { id: 'ti1', title: 'Identidades pitagóricas', done: false, duration: '10:00' },
+    { id: 'ti2', title: 'Identidades de suma y diferencia', done: false, duration: '11:00' },
+    { id: 'ti3', title: 'Ángulo doble y mitad', done: false, duration: '10:00' },
+    { id: 'ti4', title: 'Simplificación de expresiones', done: false, duration: '12:00' },
+  ]},
+  { id: 'trig_ecuaciones', title: 'Ecuaciones trigonométricas', count: 4, lessons: [
+    { id: 'te1', title: 'Ecuaciones básicas', done: false, duration: '11:00' },
+    { id: 'te2', title: 'Ecuaciones con identidades', done: false, duration: '12:00' },
+    { id: 'te3', title: 'Ley de senos', done: false, duration: '10:00' },
+    { id: 'te4', title: 'Ley de cosenos', done: false, duration: '11:00' },
+  ]},
+];
+
+const BIOLOGIA_MODULES = [
+  { id: 'bio_celula', title: 'La célula y bioquímica', count: 5, lessons: [
+    { id: 'bc1', title: 'Teoría celular', done: false, duration: '10:00' },
+    { id: 'bc2', title: 'Célula procariota y eucariota', done: false, duration: '11:00' },
+    { id: 'bc3', title: 'Organelos celulares', done: false, duration: '12:00' },
+    { id: 'bc4', title: 'Biomoléculas', done: false, duration: '11:00' },
+    { id: 'bc5', title: 'Metabolismo celular', done: false, duration: '13:00' },
+  ]},
+  { id: 'bio_genetica', title: 'Genética y herencia', count: 5, lessons: [
+    { id: 'bg1', title: 'ADN y ARN', done: false, duration: '11:00' },
+    { id: 'bg2', title: 'Síntesis de proteínas', done: false, duration: '12:00' },
+    { id: 'bg3', title: 'Leyes de Mendel', done: false, duration: '13:00' },
+    { id: 'bg4', title: 'Herencia ligada al sexo', done: false, duration: '11:00' },
+    { id: 'bg5', title: 'Mutaciones y biotecnología', done: false, duration: '12:00' },
+  ]},
+  { id: 'bio_evolucion', title: 'Evolución y ecología', count: 4, lessons: [
+    { id: 'be1', title: 'Teoría de la evolución', done: false, duration: '11:00' },
+    { id: 'be2', title: 'Selección natural', done: false, duration: '10:00' },
+    { id: 'be3', title: 'Ecosistemas y cadenas tróficas', done: false, duration: '11:00' },
+    { id: 'be4', title: 'Ciclos biogeoquímicos', done: false, duration: '10:00' },
+  ]},
+  { id: 'bio_fisiologia', title: 'Fisiología humana', count: 4, lessons: [
+    { id: 'bf1', title: 'Sistema digestivo', done: false, duration: '10:00' },
+    { id: 'bf2', title: 'Sistema respiratorio', done: false, duration: '10:00' },
+    { id: 'bf3', title: 'Sistema circulatorio', done: false, duration: '11:00' },
+    { id: 'bf4', title: 'Sistema nervioso', done: false, duration: '12:00' },
+  ]},
+];
+
+const ANATOMIA_MODULES = [
+  { id: 'ana_oseo', title: 'Sistema óseo y muscular', count: 4, lessons: [
+    { id: 'ao1', title: 'Estructura del hueso', done: false, duration: '10:00' },
+    { id: 'ao2', title: 'Esqueleto axial y apendicular', done: false, duration: '11:00' },
+    { id: 'ao3', title: 'Articulaciones', done: false, duration: '09:00' },
+    { id: 'ao4', title: 'Sistema muscular', done: false, duration: '11:00' },
+  ]},
+  { id: 'ana_circulatorio', title: 'Sistema circulatorio y respiratorio', count: 4, lessons: [
+    { id: 'ac1', title: 'El corazón y la sangre', done: false, duration: '12:00' },
+    { id: 'ac2', title: 'Circulación mayor y menor', done: false, duration: '11:00' },
+    { id: 'ac3', title: 'Vías respiratorias', done: false, duration: '10:00' },
+    { id: 'ac4', title: 'Intercambio gaseoso', done: false, duration: '10:00' },
+  ]},
+  { id: 'ana_nervioso', title: 'Sistema nervioso y endocrino', count: 4, lessons: [
+    { id: 'an1', title: 'Neurona y sinapsis', done: false, duration: '11:00' },
+    { id: 'an2', title: 'SNC y SNP', done: false, duration: '12:00' },
+    { id: 'an3', title: 'Glándulas endocrinas', done: false, duration: '10:00' },
+    { id: 'an4', title: 'Hormonas principales', done: false, duration: '11:00' },
+  ]},
+  { id: 'ana_digestivo', title: 'Sistema digestivo y excretor', count: 4, lessons: [
+    { id: 'ad1', title: 'Órganos del sistema digestivo', done: false, duration: '10:00' },
+    { id: 'ad2', title: 'Digestión mecánica y química', done: false, duration: '11:00' },
+    { id: 'ad3', title: 'Sistema urinario', done: false, duration: '10:00' },
+    { id: 'ad4', title: 'La piel como órgano excretor', done: false, duration: '09:00' },
+  ]},
+];
+
+const ZOOLOGIA_MODULES = [
+  { id: 'zoo_invertebrados', title: 'Invertebrados', count: 4, lessons: [
+    { id: 'zi1', title: 'Poríferos y cnidarios', done: false, duration: '09:00' },
+    { id: 'zi2', title: 'Platelmintos y anélidos', done: false, duration: '10:00' },
+    { id: 'zi3', title: 'Moluscos', done: false, duration: '09:00' },
+    { id: 'zi4', title: 'Artrópodos e insectos', done: false, duration: '11:00' },
+  ]},
+  { id: 'zoo_vertebrados', title: 'Vertebrados', count: 5, lessons: [
+    { id: 'zv1', title: 'Peces', done: false, duration: '09:00' },
+    { id: 'zv2', title: 'Anfibios y reptiles', done: false, duration: '10:00' },
+    { id: 'zv3', title: 'Aves', done: false, duration: '09:00' },
+    { id: 'zv4', title: 'Mamíferos', done: false, duration: '10:00' },
+    { id: 'zv5', title: 'Biodiversidad del Perú', done: false, duration: '11:00' },
+  ]},
+  { id: 'zoo_ecologia', title: 'Ecología animal', count: 3, lessons: [
+    { id: 'ze1', title: 'Nichos y hábitats', done: false, duration: '09:00' },
+    { id: 'ze2', title: 'Cadenas y redes tróficas', done: false, duration: '10:00' },
+    { id: 'ze3', title: 'Comportamiento animal', done: false, duration: '09:00' },
+  ]},
+];
+
+const BOTANICA_MODULES = [
+  { id: 'bot_morfologia', title: 'Morfología vegetal', count: 4, lessons: [
+    { id: 'bm1', title: 'La raíz', done: false, duration: '09:00' },
+    { id: 'bm2', title: 'El tallo', done: false, duration: '09:00' },
+    { id: 'bm3', title: 'La hoja', done: false, duration: '10:00' },
+    { id: 'bm4', title: 'La flor y el fruto', done: false, duration: '11:00' },
+  ]},
+  { id: 'bot_fisiologia', title: 'Fisiología vegetal', count: 4, lessons: [
+    { id: 'bf1', title: 'Fotosíntesis', done: false, duration: '12:00' },
+    { id: 'bf2', title: 'Respiración vegetal', done: false, duration: '10:00' },
+    { id: 'bf3', title: 'Transpiración y transporte', done: false, duration: '10:00' },
+    { id: 'bf4', title: 'Hormonas vegetales', done: false, duration: '09:00' },
+  ]},
+  { id: 'bot_reproduccion', title: 'Reproducción y clasificación', count: 4, lessons: [
+    { id: 'br1', title: 'Reproducción asexual', done: false, duration: '09:00' },
+    { id: 'br2', title: 'Reproducción sexual en plantas', done: false, duration: '10:00' },
+    { id: 'br3', title: 'Briófitas y pteridófitas', done: false, duration: '10:00' },
+    { id: 'br4', title: 'Gimnospermas y angiospermas', done: false, duration: '11:00' },
+  ]},
+];
+
+const HISTORIA_MODULES = [
+  { id: 'his_antiguas', title: 'Civilizaciones antiguas', count: 5, lessons: [
+    { id: 'ha1', title: 'Prehistoria', done: false, duration: '09:00' },
+    { id: 'ha2', title: 'Mesopotamia y Egipto', done: false, duration: '11:00' },
+    { id: 'ha3', title: 'Grecia antigua', done: false, duration: '12:00' },
+    { id: 'ha4', title: 'Roma: república e imperio', done: false, duration: '12:00' },
+    { id: 'ha5', title: 'China e India antiguas', done: false, duration: '10:00' },
+  ]},
+  { id: 'his_medieval', title: 'Edad Media y Moderna', count: 4, lessons: [
+    { id: 'hm1', title: 'Feudalismo', done: false, duration: '10:00' },
+    { id: 'hm2', title: 'Cruzadas e Islam', done: false, duration: '11:00' },
+    { id: 'hm3', title: 'Renacimiento y Reforma', done: false, duration: '11:00' },
+    { id: 'hm4', title: 'Grandes descubrimientos geográficos', done: false, duration: '10:00' },
+  ]},
+  { id: 'his_moderna', title: 'Revoluciones e Ilustración', count: 4, lessons: [
+    { id: 'hmo1', title: 'Ilustración y Enciclopedia', done: false, duration: '10:00' },
+    { id: 'hmo2', title: 'Revolución Francesa', done: false, duration: '12:00' },
+    { id: 'hmo3', title: 'Revolución Industrial', done: false, duration: '11:00' },
+    { id: 'hmo4', title: 'Independencias americanas', done: false, duration: '11:00' },
+  ]},
+  { id: 'his_contemporanea', title: 'Siglo XX y mundo actual', count: 4, lessons: [
+    { id: 'hc1', title: 'Primera Guerra Mundial', done: false, duration: '12:00' },
+    { id: 'hc2', title: 'Segunda Guerra Mundial', done: false, duration: '13:00' },
+    { id: 'hc3', title: 'Guerra Fría', done: false, duration: '11:00' },
+    { id: 'hc4', title: 'Mundo globalizado', done: false, duration: '10:00' },
+  ]},
+];
+
+const PERU_MODULES = [
+  { id: 'per_preincas', title: 'Culturas preíncas', count: 5, lessons: [
+    { id: 'pp1', title: 'Caral: la civilización más antigua', done: false, duration: '10:00' },
+    { id: 'pp2', title: 'Chavín de Huántar', done: false, duration: '10:00' },
+    { id: 'pp3', title: 'Paracas y Nazca', done: false, duration: '11:00' },
+    { id: 'pp4', title: 'Tiahuanaco y Wari', done: false, duration: '11:00' },
+    { id: 'pp5', title: 'Chimú y Chancay', done: false, duration: '10:00' },
+  ]},
+  { id: 'per_tahuantinsuyo', title: 'El Tahuantinsuyo', count: 5, lessons: [
+    { id: 'pt1', title: 'Origen y expansión inca', done: false, duration: '11:00' },
+    { id: 'pt2', title: 'Organización política', done: false, duration: '10:00' },
+    { id: 'pt3', title: 'Economía: mita y ayni', done: false, duration: '11:00' },
+    { id: 'pt4', title: 'Religión y arte inca', done: false, duration: '10:00' },
+    { id: 'pt5', title: 'Arquitectura: Machu Picchu', done: false, duration: '10:00' },
+  ]},
+  { id: 'per_colonia', title: 'La Colonia', count: 4, lessons: [
+    { id: 'pc1', title: 'Conquista del Perú', done: false, duration: '12:00' },
+    { id: 'pc2', title: 'El Virreinato', done: false, duration: '11:00' },
+    { id: 'pc3', title: 'La mita minera y encomienda', done: false, duration: '10:00' },
+    { id: 'pc4', title: 'Rebeliones coloniales', done: false, duration: '11:00' },
+  ]},
+  { id: 'per_republica', title: 'La República', count: 5, lessons: [
+    { id: 'pr1', title: 'Independencia del Perú', done: false, duration: '12:00' },
+    { id: 'pr2', title: 'Caudillismo y anarquía', done: false, duration: '10:00' },
+    { id: 'pr3', title: 'Época del guano', done: false, duration: '11:00' },
+    { id: 'pr4', title: 'Guerra del Pacífico', done: false, duration: '12:00' },
+    { id: 'pr5', title: 'Siglo XX: de Leguía a la democracia', done: false, duration: '11:00' },
+  ]},
+];
+
+const PSICOLOGIA_MODULES = [
+  { id: 'psi_percepcion', title: 'Sensación y percepción', count: 4, lessons: [
+    { id: 'pp1', title: 'Los sentidos', done: false, duration: '10:00' },
+    { id: 'pp2', title: 'Percepción y organización perceptiva', done: false, duration: '11:00' },
+    { id: 'pp3', title: 'Ilusiones ópticas', done: false, duration: '09:00' },
+    { id: 'pp4', title: 'Atención y conciencia', done: false, duration: '10:00' },
+  ]},
+  { id: 'psi_aprendizaje', title: 'Aprendizaje y memoria', count: 4, lessons: [
+    { id: 'pa1', title: 'Condicionamiento clásico', done: false, duration: '11:00' },
+    { id: 'pa2', title: 'Condicionamiento operante', done: false, duration: '11:00' },
+    { id: 'pa3', title: 'Tipos de memoria', done: false, duration: '10:00' },
+    { id: 'pa4', title: 'Olvido y técnicas de estudio', done: false, duration: '10:00' },
+  ]},
+  { id: 'psi_emocion', title: 'Emoción, motivación y personalidad', count: 4, lessons: [
+    { id: 'pe1', title: 'Emociones básicas', done: false, duration: '10:00' },
+    { id: 'pe2', title: 'Teorías de la motivación', done: false, duration: '11:00' },
+    { id: 'pe3', title: 'Teorías de la personalidad', done: false, duration: '12:00' },
+    { id: 'pe4', title: 'Mecanismos de defensa', done: false, duration: '10:00' },
+  ]},
+  { id: 'psi_desarrollo', title: 'Desarrollo humano', count: 4, lessons: [
+    { id: 'pd1', title: 'Desarrollo prenatal e infancia', done: false, duration: '10:00' },
+    { id: 'pd2', title: 'Adolescencia', done: false, duration: '11:00' },
+    { id: 'pd3', title: 'Piaget: desarrollo cognitivo', done: false, duration: '12:00' },
+    { id: 'pd4', title: 'Erikson: desarrollo psicosocial', done: false, duration: '11:00' },
+  ]},
+];
+
+const FILOSOFIA_MODULES = [
+  { id: 'fil_logica', title: 'Lógica y gnoseología', count: 4, lessons: [
+    { id: 'fl1', title: 'El conocimiento filosófico', done: false, duration: '10:00' },
+    { id: 'fl2', title: 'Lógica formal', done: false, duration: '11:00' },
+    { id: 'fl3', title: 'El racionalismo', done: false, duration: '10:00' },
+    { id: 'fl4', title: 'El empirismo', done: false, duration: '10:00' },
+  ]},
+  { id: 'fil_etica', title: 'Ética y valores', count: 4, lessons: [
+    { id: 'fe1', title: '¿Qué es la ética?', done: false, duration: '09:00' },
+    { id: 'fe2', title: 'Ética kantiana', done: false, duration: '11:00' },
+    { id: 'fe3', title: 'Utilitarismo', done: false, duration: '10:00' },
+    { id: 'fe4', title: 'Ética contemporánea', done: false, duration: '10:00' },
+  ]},
+  { id: 'fil_metafisica', title: 'Metafísica y ontología', count: 3, lessons: [
+    { id: 'fm1', title: 'El ser y la existencia', done: false, duration: '11:00' },
+    { id: 'fm2', title: 'Idealismo y materialismo', done: false, duration: '11:00' },
+    { id: 'fm3', title: 'Existencialismo', done: false, duration: '10:00' },
+  ]},
+  { id: 'fil_historia', title: 'Historia de la filosofía', count: 4, lessons: [
+    { id: 'fh1', title: 'Filósofos presocráticos', done: false, duration: '10:00' },
+    { id: 'fh2', title: 'Sócrates, Platón y Aristóteles', done: false, duration: '13:00' },
+    { id: 'fh3', title: 'Filosofía medieval', done: false, duration: '10:00' },
+    { id: 'fh4', title: 'Filosofía moderna y contemporánea', done: false, duration: '12:00' },
+  ]},
+];
+
+const RV_MODULES = [
+  { id: 'rv_comprension', title: 'Comprensión lectora', count: 4, lessons: [
+    { id: 'rc1', title: 'Idea principal e ideas secundarias', done: false, duration: '10:00' },
+    { id: 'rc2', title: 'Inferencias y conclusiones', done: false, duration: '11:00' },
+    { id: 'rc3', title: 'El tema y el título', done: false, duration: '09:00' },
+    { id: 'rc4', title: 'Estrategias de lectura', done: false, duration: '10:00' },
+  ]},
+  { id: 'rv_vocabulario', title: 'Vocabulario y semántica', count: 4, lessons: [
+    { id: 'rv1', title: 'Sinónimos y antónimos', done: false, duration: '09:00' },
+    { id: 'rv2', title: 'Polisemia y homonimia', done: false, duration: '10:00' },
+    { id: 'rv3', title: 'Campo semántico', done: false, duration: '09:00' },
+    { id: 'rv4', title: 'Significado por contexto', done: false, duration: '10:00' },
+  ]},
+  { id: 'rv_analogias', title: 'Analogías verbales', count: 3, lessons: [
+    { id: 'ra1', title: 'Tipos de analogías', done: false, duration: '10:00' },
+    { id: 'ra2', title: 'Analogías de grado y función', done: false, duration: '10:00' },
+    { id: 'ra3', title: 'Estrategias para resolver analogías', done: false, duration: '09:00' },
+  ]},
+  { id: 'rv_oraciones', title: 'Oraciones e inferencias', count: 4, lessons: [
+    { id: 'ro1', title: 'Oraciones incompletas', done: false, duration: '10:00' },
+    { id: 'ro2', title: 'Conectores lógicos', done: false, duration: '11:00' },
+    { id: 'ro3', title: 'Planes de redacción', done: false, duration: '10:00' },
+    { id: 'ro4', title: 'Eliminación de oraciones', done: false, duration: '10:00' },
+  ]},
+];
+
+const LITERATURA_MODULES = [
+  { id: 'lit_generos', title: 'Géneros literarios', count: 4, lessons: [
+    { id: 'lg1', title: 'Género narrativo', done: false, duration: '10:00' },
+    { id: 'lg2', title: 'Género lírico', done: false, duration: '09:00' },
+    { id: 'lg3', title: 'Género dramático', done: false, duration: '10:00' },
+    { id: 'lg4', title: 'Figuras literarias', done: false, duration: '11:00' },
+  ]},
+  { id: 'lit_peru', title: 'Literatura peruana', count: 5, lessons: [
+    { id: 'lp1', title: 'Literatura prehispánica', done: false, duration: '10:00' },
+    { id: 'lp2', title: 'Literatura colonial', done: false, duration: '10:00' },
+    { id: 'lp3', title: 'Romanticismo y costumbrismo peruano', done: false, duration: '11:00' },
+    { id: 'lp4', title: 'César Vallejo', done: false, duration: '12:00' },
+    { id: 'lp5', title: 'Mario Vargas Llosa y generación del 50', done: false, duration: '12:00' },
+  ]},
+  { id: 'lit_universal', title: 'Literatura universal', count: 5, lessons: [
+    { id: 'lu1', title: 'Literatura griega: Homero', done: false, duration: '11:00' },
+    { id: 'lu2', title: 'Dante y el Renacimiento', done: false, duration: '11:00' },
+    { id: 'lu3', title: 'Shakespeare y el Barroco', done: false, duration: '11:00' },
+    { id: 'lu4', title: 'Romantismo y realismo', done: false, duration: '11:00' },
+    { id: 'lu5', title: 'Literatura del siglo XX', done: false, duration: '12:00' },
+  ]},
+  { id: 'lit_corrientes', title: 'Corrientes literarias', count: 4, lessons: [
+    { id: 'lc1', title: 'Clasicismo y Barroco', done: false, duration: '10:00' },
+    { id: 'lc2', title: 'Romanticismo y Realismo', done: false, duration: '11:00' },
+    { id: 'lc3', title: 'Modernismo y Vanguardia', done: false, duration: '11:00' },
+    { id: 'lc4', title: 'Boom latinoamericano', done: false, duration: '12:00' },
+  ]},
+];
+
+const COURSE_MODULES = {
+  aritmetica:    ARITMETICA_MODULES,
+  algebra:       ALGEBRA_MODULES,
+  fisica:        FISICA_MODULES,
+  trigonometria: TRIGONOMETRIA_MODULES,
+  biologia:      BIOLOGIA_MODULES,
+  anatomia:      ANATOMIA_MODULES,
+  zoologia:      ZOOLOGIA_MODULES,
+  botanica:      BOTANICA_MODULES,
+  historia:      HISTORIA_MODULES,
+  peru:          PERU_MODULES,
+  psicologia:    PSICOLOGIA_MODULES,
+  filosofia:     FILOSOFIA_MODULES,
+  rv:            RV_MODULES,
+  literatura:    LITERATURA_MODULES,
+};
+
 const TEMARIO_FLAT = ARITMETICA_MODULES.flatMap(m => m.lessons.map(l => ({...l, module: m.title })));
 
 // Quiz por módulo: cada pregunta tiene prompt, type, options, answer, explanation y diagram
@@ -232,6 +593,22 @@ const QUIZ_BY_MODULE = {
       explanation: 'Una base n usa exactamente los dígitos del 0 al n−1. Base 8 → dígitos 0, 1, 2, 3, 4, 5, 6, 7. El dígito 8 no existe en octal.',
       diagram: null,
     },
+    {
+      prompt: 'El número hexadecimal A3₁₆ equivale en decimal a:',
+      type: 'choose-one',
+      options: ['143', '153', '163', '173'],
+      answer: '163',
+      explanation: 'A=10 en hex. A3₁₆ = 10×16¹ + 3×16⁰ = 160 + 3 = 163. En hexadecimal cada posición vale 16 veces la anterior.',
+      diagram: null,
+    },
+    {
+      prompt: 'Un número capicúa de 3 cifras que es múltiplo de 9 es:',
+      type: 'choose-one',
+      options: ['121', '252', '333', '414'],
+      answer: '252',
+      explanation: '252: 2+5+2=9 → múltiplo de 9 ✓ y es capicúa (se lee igual al revés). 121: 1+2+1=4 ✗. 333: 3+3+3=9 ✓ es capicúa ✓ → también válido. 252 es la opción canónica para este ejercicio.',
+      diagram: null,
+    },
   ],
 
   logica: [
@@ -273,6 +650,30 @@ const QUIZ_BY_MODULE = {
       options: ['Contradicción', 'Contingencia', 'Tautología', 'Paradoja'],
       answer: 'Tautología',
       explanation: 'Una tautología es siempre verdadera sin importar el valor de sus variables. Ejemplo: p∨¬p. Una contradicción es siempre falsa (p∧¬p). Una contingencia puede ser V o F.',
+      diagram: null,
+    },
+    {
+      prompt: 'El bicondicional p ↔ q es verdadero cuando:',
+      type: 'choose-one',
+      options: ['p y q tienen valores opuestos', 'p y q tienen el mismo valor de verdad', 'p es verdadera', 'q es falsa'],
+      answer: 'p y q tienen el mismo valor de verdad',
+      explanation: 'p ↔ q significa "p si y solo si q". Es verdadero cuando ambas son V o ambas son F. Es falso cuando tienen valores distintos. Es la "igualdad" en lógica.',
+      diagram: null,
+    },
+    {
+      prompt: 'La contrarrecíproca de "Si p entonces q" es:',
+      type: 'choose-one',
+      options: ['Si q entonces p', 'Si ¬p entonces ¬q', 'Si ¬q entonces ¬p', 'Si p entonces ¬q'],
+      answer: 'Si ¬q entonces ¬p',
+      explanation: 'La contrarrecíproca de p→q es ¬q→¬p. Es lógicamente equivalente al condicional original. Si "Si llueve entonces hay nubes", entonces "Si no hay nubes entonces no llueve".',
+      diagram: null,
+    },
+    {
+      prompt: '¿Cuántas filas tiene la tabla de verdad de 3 proposiciones?',
+      type: 'choose-one',
+      options: ['4', '6', '8', '9'],
+      answer: '8',
+      explanation: 'Con n proposiciones la tabla tiene 2ⁿ filas. Para n=3: 2³=8. Para 2 proposiciones: 4 filas. Para 4 proposiciones: 16 filas.',
       diagram: null,
     },
   ],

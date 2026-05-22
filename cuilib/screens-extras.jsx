@@ -142,14 +142,14 @@ function ScreenProgreso({ onNavigate }) {
         <h1 className="h1" style={{marginTop: 6}}>Mi progreso</h1>
       </section>
 
-      <section style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap: 16}}>
+      <section className="grid-stats-4">
         <Stat icon="flame"  num="12" lbl="Días de racha" accent="#ff6b3d"/>
         <Stat icon="clock"  num="47h" lbl="Tiempo este mes" accent="#7c6cff"/>
         <Stat icon="trophy" num="6" lbl="Logros" accent="#fbbf24"/>
         <Stat icon="bolt"   num="2,340" lbl="XP totales" accent="#34d399"/>
       </section>
 
-      <section style={{display:'grid', gridTemplateColumns:'1.4fr 1fr', gap: 16}}>
+      <section className="grid-col-2">
         <div className="card card-pad">
           <div className="row" style={{justifyContent:'space-between', marginBottom: 18}}>
             <h3 className="h3">Actividad esta semana</h3>
@@ -284,7 +284,7 @@ function ScreenPasar({ onOpenCourse }) {
         </p>
       </section>
 
-      <section style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap: 16}}>
+      <section className="grid-auto-3">
         {[
           { title: 'Datazo del día', tag:'2 min', body:'¿Sabías que el cero fue inventado de forma independiente en al menos tres civilizaciones distintas?', color:'var(--c-amber)' },
           { title: 'Mini-reto', tag:'30 seg', body:'¿Cuál es el siguiente número en la secuencia: 2, 6, 12, 20, 30, ___?', color:'var(--c-purple)' },
@@ -313,7 +313,7 @@ function ScreenPasar({ onOpenCourse }) {
 
       <section>
         <h2 className="h2" style={{marginBottom: 14}}>Juegos rápidos</h2>
-        <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap: 12}}>
+        <div className="grid-stats-4" style={{gap: 12}}>
           {[
             {n:'Cálculo mental', t:'3 min', c:'var(--c-orange)'},
             {n:'Memoria histórica', t:'5 min', c:'var(--c-cobalt)'},

@@ -171,6 +171,8 @@ function App() {
         {route === 'admin' && isAdmin && <ScreenAdmin user={authUser}/>}
       </main>
 
+      <BottomNav route={sidebarActive} onNavigate={navigate}/>
+
       {/* Tweaks panel */}
       <TweaksPanel title="Tweaks">
         <TweakSection label="Theme"/>
@@ -213,7 +215,7 @@ function ScreenPracticaIntro({ onStart }) {
           Practica con ejercicios adaptados a tu nivel. GAZAPITO te acompaña.
         </p>
       </section>
-      <section style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap: 16}}>
+      <section className="grid-auto-3">
         {[
           { t:'Conjuntos', d:'8 preguntas · 5 min', c:'var(--c-orange)' },
           { t:'Numeración', d:'10 preguntas · 8 min', c:'var(--c-purple)' },
@@ -473,7 +475,7 @@ function ScreenAdmin({ user }) {
         </p>
       </section>
 
-      <section style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap: 16}}>
+      <section className="grid-auto-3">
         <Stat icon="video"  num={totalCursos}    lbl="Cursos"       accent="var(--accent)"/>
         <Stat icon="book"   num={totalLecciones} lbl="Lecciones"    accent="var(--c-green)"/>
         <Stat icon="bolt"   num="1"              lbl="Video activo" accent="var(--c-orange)"/>

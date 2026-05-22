@@ -937,3 +937,169 @@ a { color: inherit; text-decoration: none; }
 [data-radius="round"] {
   --r-sm: 12px; --r: 16px; --r-md: 18px; --r-lg: 22px; --r-xl: 28px;
 }
+
+/* ── Grid utilities (adaptables) ────────────────────────────── */
+.grid-auto-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.grid-stats-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.grid-col-2 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+}
+.grid-banner {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 1.6fr;
+  gap: 0;
+}
+.grid-player {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 22px;
+  align-items: start;
+}
+.grid-detail {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── Bottom nav (solo móvil) ─────────────────────────────────── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 62px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 0 4px;
+  align-items: center;
+  justify-content: space-around;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+[data-theme="light"] .bottom-nav { background: #ffffff; }
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 9.5px;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  transition: color 120ms;
+  text-align: center;
+}
+.bottom-nav-item.active { color: var(--accent); }
+.bottom-nav-item .ico { width: 22px; height: 22px; display: grid; place-items: center; }
+
+/* ── Responsive: tablet (≤ 1024px) ──────────────────────────── */
+@media (max-width: 1024px) {
+  .app { grid-template-columns: 76px 1fr; }
+  .app.collapsed { grid-template-columns: 76px 1fr; }
+  .sidebar { padding: 18px 8px 14px; }
+  .brand-name,
+  .nav-item .label,
+  .nav-item .badge,
+  .user-card .meta { display: none; }
+  .nav-item { justify-content: center; padding: 11px 0; }
+  .brand { justify-content: center; padding-left: 0; padding-right: 0; }
+  .nav-item.active::before { display: none; }
+  .app .user-card { padding: 6px; background: transparent; }
+}
+
+/* ── Responsive: móvil (≤ 768px) ────────────────────────────── */
+@media (max-width: 768px) {
+  /* Layout principal */
+  .app,
+  .app.collapsed { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .bottom-nav { display: flex; }
+  body { padding-bottom: 62px; }
+
+  /* Topbar */
+  .topbar { padding: 11px 14px; gap: 8px; }
+  .topbar .crumbs { font-size: 13px; flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; }
+  .search { display: none; }
+  .icon-btn { width: 36px; height: 36px; }
+
+  /* Contenido */
+  .content { padding: 16px 14px 32px; gap: 18px; }
+  [data-density="compact"] .content { padding: 12px 12px 28px; gap: 14px; }
+  [data-density="comfy"] .content { padding: 20px 16px 40px; gap: 24px; }
+
+  /* Tipografía */
+  .h1 { font-size: 21px; }
+  .h2 { font-size: 17px; }
+  .h3 { font-size: 15px; }
+
+  /* Grid de cursos */
+  .grid-courses { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .course-card .title { font-size: 13.5px; }
+  .course-card .body { padding: 10px 12px 12px; }
+
+  /* Hero de detalle de curso */
+  .hero { grid-template-columns: 1fr; gap: 14px; }
+  .hero-cover { width: 100%; height: 150px; font-size: 40px; }
+
+  /* Fila de lección (ocultar miniatura) */
+  .lesson-row { grid-template-columns: 26px 1fr auto; gap: 10px; }
+  .lesson-thumb { display: none; }
+  .lesson-title { font-size: 13px; }
+
+  /* Quiz */
+  .quiz-shell { grid-template-columns: 1fr; gap: 14px; }
+  .quiz-card { padding: 16px 14px 18px; min-height: 0; border-radius: var(--r-lg); }
+  .chat-side { position: static; max-height: 380px; }
+  .chat-body { max-height: 200px; }
+  .answer-chip { height: 40px; padding: 0 14px; font-size: 13px; }
+
+  /* Grids de 3 columnas → 1 columna */
+  .grid-auto-3 { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Grids de 4 columnas → 2 columnas */
+  .grid-stats-4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* Grids de 2 columnas → 1 columna */
+  .grid-col-2 { grid-template-columns: 1fr; }
+  .grid-detail { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Banner (inicio) → columna */
+  .grid-banner { grid-template-columns: 1fr; }
+  .grid-banner > *:first-child { min-height: 140px; }
+
+  /* Player → columna (video primero, lista de lecciones debajo) */
+  .grid-player { grid-template-columns: 1fr; gap: 14px; }
+
+  /* Stat cards */
+  .stat { padding: 12px 14px; }
+  .stat .num { font-size: 20px; }
+
+  /* Route / progress cards */
+  .route-card { padding: 16px; }
+
+  /* Sección header */
+  .sect-hd { margin-bottom: 10px; }
+}
+
+/* ── Responsive: móvil pequeño (≤ 480px) ────────────────────── */
+@media (max-width: 480px) {
+  .grid-courses { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .content { padding: 12px 10px 28px; gap: 14px; }
+  .h1 { font-size: 19px; }
+  .quiz-card { padding: 14px 12px 16px; }
+}

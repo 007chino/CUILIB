@@ -28,8 +28,7 @@ function ScreenPlayer({ course, lesson, onBack, onNext, onPrev, onPractice, onSe
   };
 
   return (
-    <div className="content fade-in" data-screen-label="04 Reproductor"
-         style={{display:'grid', gridTemplateColumns:'1fr 360px', gap: 22, alignItems:'start'}}>
+    <div className="content fade-in grid-player" data-screen-label="04 Reproductor">
       <div style={{display:'flex', flexDirection:'column', gap: 18}}>
         {/* Header bar */}
         <div className="card card-pad row" style={{justifyContent:'space-between'}}>

@@ -20,7 +20,7 @@ function ScreenInicio({ onNavigate, onOpenCourse, cardStyle, user }) {
       </section>
 
       {/* Stats */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+      <section className="grid-stats-4">
         <Stat icon="flame" num="0" lbl="Días de racha" accent="#ff6b3d" />
         <Stat icon="clock" num="0" lbl="Minutos este mes" accent="#7c6cff" />
         <Stat icon="check" num="0" lbl="Lecciones completadas" accent="#34d399" />
@@ -51,7 +51,7 @@ function ScreenInicio({ onNavigate, onOpenCourse, cardStyle, user }) {
       </section>
 
       {/* Practice card */}
-      <section style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 16 }}>
+      <section className="grid-col-2">
         <PracticeBanner onPractice={() => onNavigate('quiz')} />
         <RouteWidget onOpen={() => onNavigate('rutas')} />
       </section>
@@ -62,10 +62,7 @@ function ScreenInicio({ onNavigate, onOpenCourse, cardStyle, user }) {
 function ContinueBanner({ course, onOpen }) {
   const pct = Math.round(course.progress * 100);
   return (
-    <div className="card" style={{
-      display: 'grid',
-      gridTemplateColumns: 'minmax(260px, 1fr) 1.6fr',
-      gap: 0,
+    <div className="card grid-banner" style={{
       padding: 0,
       overflow: 'hidden',
       borderColor: 'var(--border)'
@@ -317,7 +314,7 @@ function ScreenDetalle({ course, onPlay, onPractice, onBack }) {
         <span style={{ fontSize: 13, fontWeight: 600 }}>{course.title}</span>
       </div>
 
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 32, alignItems: 'start' }}>
+      <section className="grid-detail">
         <div>
           <div className="hero">
             <div className="hero-cover" style={{
