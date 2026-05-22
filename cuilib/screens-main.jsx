@@ -302,7 +302,8 @@ function ScreenCursos({ onOpenCourse, cardStyle, search }) {
 
 // ─── DETALLE DE CURSO ───────────────────────────────────────────
 function ScreenDetalle({ course, onPlay, onPractice, onBack }) {
-  const [openModule, setOpenModule] = cUseState('conjuntos');
+  const modules = (window.COURSE_MODULES && window.COURSE_MODULES[course.id]) || (course.id === 'aritmetica' ? ARITMETICA_MODULES : []);
+  const [openModule, setOpenModule] = cUseState(modules[0]?.id || null);
 
   return (
     <div className="content fade-in" data-screen-label="03 Detalle">
@@ -344,15 +345,15 @@ function ScreenDetalle({ course, onPlay, onPractice, onBack }) {
           <section style={{ marginTop: 32 }}>
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 14 }}>
               <h2 className="h2">Temario</h2>
-              {course.id === 'aritmetica' && (
+              {modules.length > 0 && (
                 <span className="muted" style={{ fontSize: 13 }}>
-                  {ARITMETICA_MODULES.reduce((s, m) => s + m.count, 0)} lecciones
+                  {modules.reduce((s, m) => s + (m.count || m.lessons?.length || 0), 0)} lecciones
                 </span>
               )}
             </div>
 
-            {course.id === 'aritmetica' ? (
-              ARITMETICA_MODULES.map((m) => (
+            {modules.length > 0 ? (
+              modules.map((m) => (
                 <div key={m.id} className={`acc-item ${openModule === m.id ? 'open' : ''}`}>
                   <div className="acc-hd" onClick={() => setOpenModule(openModule === m.id ? null : m.id)}>
                     <span className="chev"><Icon name="chev" size={16} /></span>
@@ -377,7 +378,7 @@ function ScreenDetalle({ course, onPlay, onPractice, onBack }) {
                               {l.current && <span className="pill" style={{ color: 'var(--accent)', background: 'var(--accent-soft)' }}>En curso</span>}
                             </div>
                           </div>
-                          <button className="btn btn-soft btn-sm" onClick={(e) => { e.stopPropagation(); onPractice(); }}>
+                          <button className="btn btn-soft btn-sm" onClick={(e) => { e.stopPropagation(); onPractice(m.id, m.title); }}>
                             <Icon name="pencil" size={12} /> Practicar
                           </button>
                         </div>
@@ -431,7 +432,10 @@ function ScreenDetalle({ course, onPlay, onPractice, onBack }) {
                 <button className="btn btn-ghost btn-sm">
                   <Icon name="plus" size={14} /> Agregar a mi ruta
                 </button>
-                <button className="btn btn-ghost btn-sm" onClick={onPractice}>
+                <button className="btn btn-ghost btn-sm" onClick={() => {
+                  const m = modules.find(x => x.id === openModule) || modules[0];
+                  onPractice(m?.id, m?.title);
+                }}>
                   <Icon name="pencil" size={14} /> Practicar
                 </button>
               </div>

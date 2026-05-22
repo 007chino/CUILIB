@@ -58,15 +58,20 @@ function App() {
     setRoute('player');
   };
 
-  const goPractice = () => {
+  const goPractice = (overrideModuleId, overrideModuleName) => {
     const course = currentCourse || CUILIB_COURSES[0];
     if (!currentCourse) setCurrentCourse(course);
-    const courseModules = (window.COURSE_MODULES || {})[course?.id] || ARITMETICA_MODULES;
-    const module = currentLesson
-      ? courseModules.find(m => m.lessons.some(l => l.id === currentLesson.id))
-      : null;
-    setCurrentModuleId(module?.id || 'conjuntos');
-    setCurrentModuleName(module?.title || null);
+    if (overrideModuleId || overrideModuleName) {
+      setCurrentModuleId(overrideModuleId || 'tema');
+      setCurrentModuleName(overrideModuleName || null);
+    } else {
+      const courseModules = (window.COURSE_MODULES || {})[course?.id] || ARITMETICA_MODULES;
+      const module = currentLesson
+        ? courseModules.find(m => m.lessons.some(l => l.id === currentLesson.id))
+        : null;
+      setCurrentModuleId(module?.id || course?.id || 'conjuntos');
+      setCurrentModuleName(module?.title || null);
+    }
     setRoute('quiz');
   };
 
